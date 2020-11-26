@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du jeu {{ game.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ game.title }}</h1>
+    {% if game.image %}
+        <img class="img-game" src="{{ asset(game.image) }}">
+    {% endif %}
+    <strong>publié le {{ game.releaseDate | date('d/m/Y') }}
+        par <a href="{{ path('user', { id: game.user.id }) }}">{{ game.user.firstname }} {{ game.user.lastname }}</a></strong>
+    <p>{{ game.description }}</p>
+{% endblock %}

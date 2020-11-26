@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('home') }}">MoiJV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% set route = app.request.get('_route') %}
+                <li class="nav-item{% if route == 'home' %} active{% endif %}">
+                    <a class="nav-link" href="{{ path('home') }}">
+                        Accueil{% if route == 'home' %} <span class="sr-only">(current)</span>{% endif %}
+                    </a>
+                </li>
+                {% if app.user %}
+                    <li class="nav-item{% if route == 'user' %} active{% endif %}">
+                        <a class="nav-link" href="{{ path('user', { id: app.user.id }) }}">
+                            Profil{% if route == 'user' %} <span class="sr-only">(current)</span>{% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('game_add') }}">Ajouter un jeu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item{% if route == 'app_login' %} active{% endif %}">
+                        <a class="nav-link" href="{{ path('app_login') }}">
+                            Connexion{% if route == 'app_login' %} <span class="sr-only">(current)</span>{% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item{% if route == 'app_register' %} active{% endif %}">
+                        <a class="nav-link" href="{{ path('app_register') }}">
+                            Inscription{% if route == 'app_register' %} <span class="sr-only">(current)</span>{% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <form action="{{ path('game_search') }}" class="form-inline my-2 my-lg-0">
+                <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    </header>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<div class="row">
+    {% for game in list_games %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{ game.image ? asset(game.image) : 'https://place-hold.it/500x300' }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="text-muted">
+                        publié le {{ game.releaseDate | date('d/m/Y') }}
+                        par <a href="{{ path('user', {id : game.user.id}) }}">
+                            {{ game.user.firstname }} {{ game.user.lastname }}
+                        </a>
+                    </p>
+                    <p class="card-text">{{ game.description[:100] }}...</p>
+                    <a href="{{ path('game', {id: game.id}) }}" class="btn btn-primary">
+                        Fiche du jeu
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
